@@ -1,4 +1,4 @@
--- DROP DATABASE chat;
+--DROP DATABASE chat;
 CREATE DATABASE chat;
 
 USE chat;
@@ -9,8 +9,8 @@ CREATE TABLE messages (
   message TEXT,
   room_id INTEGER,
   user_id INTEGER,
-  FOREIGN KEY (room_id) REFERENCES rooms (id),
-  FOREIGN KEY (user_id) REFERENCES users (id)
+ FOREIGN KEY (room_id) REFERENCES rooms (id),
+ FOREIGN KEY (user_id) REFERENCES users (id)
 );
 
 

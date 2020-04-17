@@ -3,32 +3,22 @@ var models = require('../models');
 module.exports = {
   messages: {
     get: function (req, res) {
+      console.log('MESSAGES GET CONTROLLER');
       models.messages.get((err, result) => {
-        // if (err) {
-        //   throw ('get failed: ', err);
-        // } else {
-          res.json(result);
-        // }
+        res.json(result);
       });
     },
     post: function (req, res) {
+      console.log('req: ', req.body);
+     console.log('MESSAGES POST CONTROLLER');
       var params = [req.body.message, req.body.roomname, req.body.username];
       models.messages.post(params, (err, results) => {
-        // if (err) {
-        //   throw ('post failed: ', err);
-        // } else {
-          res.json(results)
-        // }
+        res.json(results);
       });
     }
   },
 
-
- // a function which handles a get request for all messages
-// a function which handles posting a message to the database
-
   users: {
-    // Ditto as above
     get: function (req, res) {
       models.users.get((err, result) => {
         if (err) {
