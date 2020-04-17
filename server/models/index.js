@@ -13,7 +13,6 @@ module.exports = {
         }
       });
 
-
     },
     post: function (params, callback) {
       var queryString = 'INSERT INTO messages(message, room_id, user_id) values (?, (select name from rooms where name = ?), (select name from users where name = ?))';

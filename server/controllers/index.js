@@ -1,44 +1,68 @@
 var models = require('../models');
+var bluebird = require('bluebird');
+var orm = require('../db');
 
 module.exports = {
   messages: {
     get: function (req, res) {
-      console.log('MESSAGES GET CONTROLLER');
-      models.messages.get((err, result) => {
-        res.json(result);
-      });
+      Message.findAll({include: [User]})
+        .then((err, results) => {
+          res.json(results);
+        });
     },
+
     post: function (req, res) {
-      console.log('req: ', req.body);
-     console.log('MESSAGES POST CONTROLLER');
-      var params = [req.body.message, req.body.roomname, req.body.username];
-      models.messages.post(params, (err, results) => {
-        res.json(results);
-      });
+      User.findOrCreate({where: {name:req.body.username}})
+        .then((err, results) => {
+
+          var params = {
+            message: req.body.message,
+            room_id: req.body.roomname,
+            user_id: user.get('id')
+          };
+          Message.create(params)
+            .then((err, results) => {
+              res.sendStatus(201);
+            });
+        });
+
     }
   },
 
   users: {
     get: function (req, res) {
-      models.users.get((err, result) => {
-        if (err) {
-          throw ('get users failed');
-        } else {
-          res.json(result);
-        }
-      });
+      User.findAll()
+        .then((err, results) => {
+          res.json(results);
+        });
     },
 
     post: function (req, res) {
-      var params = [req.body.username];
-      models.users.post(params, (err, result) => {
-        if (err) {
-          throw ('posting failed');
-        } else {
-          res.json(result);
-        }
-      });
+
+      User.create({where: { name:req.body.username }})
+        .then((err, results) => {
+          res.sendStatus(201);
+        });
+    }
+  },
+
+  rooms: {
+    get: function (req, res) {
+      Rooms.findAll()
+        .then((err, results) => {
+          res.json(results);
+        });
+    },
+
+    post: function (req, res) {
+
+      Rooms.create({where: {name:req.body.roomname}})
+        .then((err, results) => {
+          res.sendStatus(201);
+        });
     }
   }
+
+
 };
 
