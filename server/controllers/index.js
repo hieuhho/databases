@@ -4,19 +4,22 @@ module.exports = {
   messages: {
     get: function (req, res) {
       models.messages.get((err, result) => {
-        if (err) {
-          throw ('get failed: ', err);
-        } else {
+        // if (err) {
+        //   throw ('get failed: ', err);
+        // } else {
           res.json(result);
-        }
-      })
+        // }
+      });
     },
     post: function (req, res) {
-      models.messages.post(req.body, (err) => {
-        if (err) {
-          throw ('post failed: ', err);
-        }
-      })
+      var params = [req.body.message, req.body.roomname, req.body.username];
+      models.messages.post(params, (err, results) => {
+        // if (err) {
+        //   throw ('post failed: ', err);
+        // } else {
+          res.json(results)
+        // }
+      });
     }
   },
 
@@ -37,11 +40,14 @@ module.exports = {
     },
 
     post: function (req, res) {
-      models.users.post(req.body, (err) => {
+      var params = [req.body.username];
+      models.users.post(params, (err, result) => {
         if (err) {
-          throw ('posting failed')
+          throw ('posting failed');
+        } else {
+          res.json(result);
         }
-      })
+      });
     }
   }
 };
